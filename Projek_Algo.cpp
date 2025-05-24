@@ -2,7 +2,7 @@
 #include <cstring>
 using namespace std;
 
-int menu_input_1;
+int menu_input_1, menu_show_2;
 
 struct node_schedule
 {
@@ -446,6 +446,49 @@ void menu_input(int &pilih_menu_input)
             break;
         }
     } while (menu_input_1 != 3);
+}
+
+void menu_show(int pilih_menu_show)
+{
+    do
+    {
+        getchar();
+        cout << "========================" << endl;
+        cout << "Choose show menu : " << endl;
+        cout << "========================" << endl;
+        cout << "1. Schedule show" << endl;
+        cout << "2. Assigment show" << endl;
+        cout << "3. Return to main menu" << endl;
+        cout << "========================" << endl;
+        cout << "Choose show menu : ";
+        cin >> menu_show_2;
+        system("clear");
+        switch (menu_show_2)
+        {
+        case 1:
+            clearLL_Schedule();
+            read_file_schedule();
+            cetakSchedule();
+            break;
+
+        case 2:
+            clearLL_Assignment();
+            read_file_assignment();
+            cetakAssignment();
+            break;
+
+        case 3:
+            getchar();
+            system("clear");
+            return;
+            break;
+
+        default:
+            break;
+        }
+    } while (menu_show_2 != 3);
+
+    system("clear");
 }
 
 int main(){
