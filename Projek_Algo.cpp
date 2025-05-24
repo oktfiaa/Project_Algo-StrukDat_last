@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstring>
 using namespace std;
 
 struct node_schedule
@@ -83,6 +84,50 @@ void clearLL_Schedule()
         delete hapus;
     }
     kepala_s = NULL;
+}
+
+void clearLL_Assignment()
+{
+    node_assignment *current = kepala_a;
+    while (current != NULL)
+    {
+        node_assignment *hapus = current;
+        current = current->next;
+        delete hapus;
+    }
+    kepala_a = NULL;
+}
+
+void assignmentLL(string nama_mka, string hari_mka, int jmlh_sks_mka, int tingkat_kesulitan_mka, string status)
+{
+    node_assignment *baru_a = new node_assignment(); // baut node baru
+    strncpy(baru_a->nama_mka, nama_mka.c_str(), sizeof(baru_a->nama_mka));
+    strncpy(baru_a->hari_mka, hari_mka.c_str(), sizeof(baru_a->hari_mka));
+    baru_a->jmlh_sks_mka = jmlh_sks_mka;
+    baru_a->tingkat_kesulitan_mka = tingkat_kesulitan_mka;
+    strncpy(baru_a->status, status.c_str(), sizeof(baru_a->status));
+    baru_a->next = NULL;
+    kepala_a = ekor_a = baru_a;
+}
+
+void TambahAkhirAssignment(string nama_mka, string hari_mka, int jmlh_sks_mka, int tingkat_kesulitan_mka, string status)
+{
+    node_assignment *baru_a = new node_assignment();
+    strncpy(baru_a->nama_mka, nama_mka.c_str(), sizeof(baru_a->nama_mka));
+    strncpy(baru_a->hari_mka, hari_mka.c_str(), sizeof(baru_a->hari_mka));
+    baru_a->jmlh_sks_mka = jmlh_sks_mka;
+    baru_a->tingkat_kesulitan_mka = tingkat_kesulitan_mka;
+    strncpy(baru_a->status, status.c_str(), sizeof(baru_a->status));
+    baru_a->next = NULL;
+    if (kepala_a == NULL)
+    {
+        kepala_a = ekor_a = baru_a;
+    }
+    else
+    {
+        ekor_a->next = baru_a;
+        ekor_a = baru_a;
+    }
 }
 
 int main(){
