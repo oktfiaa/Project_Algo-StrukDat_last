@@ -130,6 +130,46 @@ void TambahAkhirAssignment(string nama_mka, string hari_mka, int jmlh_sks_mka, i
     }
 }
 
+void swapString(char *a, char *b)
+{
+    char temp[50];
+    strcpy(temp, a);
+    strcpy(a, b);
+    strcpy(b, temp);
+}
+
+void sorting_schedule_tingkat_kesulitan()
+{
+    if (kepala_s == NULL)
+    {
+        return;
+    }
+
+    bool swapped;
+    node_schedule *start_pointer;
+    node_schedule *last_pointer = NULL;
+
+    do
+    {
+        swapped = false;
+        start_pointer = kepala_s;
+
+        while (start_pointer->next != last_pointer)
+        {
+            if (start_pointer->tingkat_kesulitan_mks > start_pointer->next->tingkat_kesulitan_mks)
+            {
+                swapString(start_pointer->nama_mks, start_pointer->next->nama_mks);
+                swapString(start_pointer->hari_mks, start_pointer->next->hari_mks);
+                swap(start_pointer->jmlh_sks_mks, start_pointer->next->jmlh_sks_mks);
+                swap(start_pointer->tingkat_kesulitan_mks, start_pointer->next->tingkat_kesulitan_mks);
+                swapped = true;
+            }
+            start_pointer = start_pointer->next;
+        }
+        last_pointer = start_pointer;
+    } while (swapped);
+}
+
 void file_schedule()
 {
     FILE *file = fopen("schedule_data.txt", "wb");
