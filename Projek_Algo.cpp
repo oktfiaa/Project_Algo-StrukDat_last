@@ -187,7 +187,64 @@ void read_file_schedule()
     }
 
     fclose(file);
-    // cout << "Schedule berhasil dimuat dari file.\n";
+}
+
+void file_assignment()
+{
+    FILE *file = fopen("assignment_data.txt", "wb");
+    if (file != NULL)
+    {
+        bantu_a = kepala_a;
+        while (bantu_a != NULL)
+        {
+            fwrite(bantu_a, sizeof(node_assignment) - sizeof(node_assignment *), 1, file);
+            bantu_a = bantu_a->next;
+        }
+        fclose(file);
+        cout << "Assignment data successfully saved in assignment_data.txt file!" << endl;
+    }
+    else
+    {
+        cout << "Failed to open the file to save the assignment data!";
+    }
+}
+
+void read_file_assignment()
+{
+    FILE *file = fopen("assignment_data.txt", "rb");
+    if (file == NULL)
+    {
+        cout << "Failed to open the file to save the assignment data!";
+        return;
+    }
+
+    kepala_a = ekor_a = NULL;
+
+    while (true)
+    {
+        node_assignment *newA = new node_assignment();
+        int read = fread(newA, sizeof(node_assignment) - sizeof(node_assignment *), 1, file);
+
+        if (read != 1)
+        {
+            delete newA;
+            break;
+        }
+
+        newA->next = NULL;
+
+        if (kepala_a == NULL)
+        {
+            kepala_a = ekor_a = newA;
+        }
+        else
+        {
+            ekor_a->next = newA;
+            ekor_a = newA;
+        }
+    }
+
+    fclose(file);
 }
 
 int main(){
