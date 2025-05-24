@@ -19,6 +19,13 @@ struct node_assignment
     node_assignment *next; // pointer ke node berikutnya
 };
 
+struct PrioritasPlan
+{
+    char nama_mks[50];
+    char hari[50];
+    int sks, kesulitan, skor;
+};
+
 // buat kepala/head, ekor, bantu linked lisnya
 node_schedule *kepala_s = NULL;
 node_schedule *ekor_s = NULL;
@@ -338,6 +345,69 @@ void cetakAssignment()
         }
         cout << "=======================================================================================" << endl;
     }
+}
+
+void cek_lesson_priority()
+{
+    FILE *file = fopen("schedule_data.txt", "rb");
+    if (file == NULL)
+    {
+        cout << "Failed to open the file to save the schedule data!" << endl;
+        return;
+    }
+
+    PrioritasPlan Plan[999];
+    int count = 0;
+
+    while (true)
+    {
+        node_schedule *cek = new node_schedule();
+        int read = fread(cek, sizeof(node_schedule) - sizeof(node_schedule *), 1, file);
+        if (read != 1)
+        {
+            delete cek;
+            break;
+        }
+
+        PrioritasPlan data;
+        strcpy(data.nama_mks, cek->nama_mks);
+        data.sks = cek->jmlh_sks_mks;
+        data.kesulitan = cek->tingkat_kesulitan_mks;
+        // data.hari = konversiHari(cek->hari_mks);
+        strcpy(data.hari, cek->hari_mks);
+        data.skor = data.sks * 100 + data.kesulitan * 10;
+        Plan[count++] = data;
+        delete cek;
+    }
+    fclose(file);
+
+    if (count == 0)
+    {
+        cout << "Tidak ada data schedule yang bisa diproses.\n";
+        return;
+    }
+
+    for (int i = 0; i < count - 1; i++)
+    {
+        for (int j = i + 1; j < count; j++)
+        {
+            if (Plan[j].skor > Plan[i].skor)
+            {
+                swap(Plan[i], Plan[j]);
+            }
+        }
+    }
+
+    cout << "====================== LESSON PLAN PRIORITY ======================" << endl;
+    for (int i = 0; i < count; i++)
+    {
+        cout << i + 1 << ". " << Plan[i].nama_mks
+             << " | SKS: " << Plan[i].sks
+             << " | Kesulitan: " << Plan[i].kesulitan
+             << " | Hari nilai: " << Plan[i].hari
+             << " | Skor: " << Plan[i].skor << endl;
+    }
+    cout << "==================================================================" << endl;
 }
 
 void lesson_plan()
