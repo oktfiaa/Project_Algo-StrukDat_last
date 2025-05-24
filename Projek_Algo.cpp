@@ -428,12 +428,12 @@ void lesson_plan()
         switch (pil_lesson)
         {
         case 1:
-            // cek_lesson_priority();
+            cek_lesson_priority();
             break;
 
         case 2:
             read_file_schedule();
-            // cek_lesson_priority();
+            cek_lesson_priority();
             cout << "Enter schedule name to delete : ";
             cin.ignore(); // untuk bersihkan buffer
             getline(cin, deleteScheduleName);
