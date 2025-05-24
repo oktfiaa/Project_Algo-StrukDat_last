@@ -2,6 +2,8 @@
 #include <cstring>
 using namespace std;
 
+int menu_input_1;
+
 struct node_schedule
 {
     char nama_mks[50], hari_mks[50];
@@ -336,6 +338,114 @@ void cetakAssignment()
         }
         cout << "=======================================================================================" << endl;
     }
+}
+
+void menu_input(int &pilih_menu_input)
+{
+    do
+    {
+        string nama_mks, hari_mks, nama_mka, hari_mka, status;
+        int jmlh_inputs, jmlh_inputa, jmlh_sks_mks, tingkat_kesulitan_mks, jmlh_sks_mka, tingkat_kesulitan_mka;
+        // int totals = 0;
+        // int totala = 0;
+
+        cout << "===============================" << endl;
+        cout << "Choose input menu : " << endl;
+        cout << "===============================" << endl;
+        cout << "1. Schedule input" << endl;
+        cout << "2. Assigment input" << endl;
+        cout << "3. Return to main menu" << endl;
+        cout << "===============================" << endl;
+        cout << "Choose input menu : ";
+        cin >> menu_input_1;
+        cin.ignore();
+        system("clear");
+        switch (menu_input_1)
+        {
+        case 1:
+            read_file_schedule();
+            cout << "Enter shedule quantity : ";
+            cin >> jmlh_inputs;
+            cin.ignore();
+
+            for (int i = 0; i < jmlh_inputs; i++)
+            {
+                cout << "================INPUT SCEDULE================\n";
+                cout << "Input the course name : ";
+                getline(cin, nama_mks);
+                cout << "Day : ";
+                getline(cin, hari_mks);
+                cout << "Total of SKS : ";
+                cin >> jmlh_sks_mks;
+                cout << "Level of difficulty [1-10]: ";
+                cin >> tingkat_kesulitan_mks;
+                cin.ignore();
+                cout << "=============================================\n";
+
+                if (kepala_s == NULL)
+                {
+                    scheduleLL(nama_mks, hari_mks, jmlh_sks_mks, tingkat_kesulitan_mks);
+                }
+                else
+                {
+                    TambahAkhirSchedule(nama_mks, hari_mks, jmlh_sks_mks, tingkat_kesulitan_mks);
+                }
+            }
+            system("clear");
+            file_schedule();
+            // totals += jmlh_inputs;
+            // system("clear");
+
+            break;
+
+        case 2:
+            read_file_assignment();
+            cout << "Enter assignment quantity : ";
+            cin >> jmlh_inputa;
+            cin.ignore();
+
+            for (int j = 0; j < jmlh_inputa; j++)
+            {
+                cout << "==============INPUT ASSIGNMENT==============\n";
+                cout << "Input the course name : ";
+                getline(cin, nama_mka);
+                cout << "Deadline : ";
+                getline(cin, hari_mka);
+                cout << "Total of SKS : ";
+                cin >> jmlh_sks_mka;
+                cout << "Level of difficulty [1-10]: ";
+                cin >> tingkat_kesulitan_mka;
+                cin.ignore();
+                // cout << "Status : ";
+                // getline(cin, status);
+                status = "Unfinished";
+                cout << "============================================\n";
+
+                if (kepala_a == NULL)
+                {
+                    assignmentLL(nama_mka, hari_mka, jmlh_sks_mka, tingkat_kesulitan_mka, status);
+                }
+                else
+                {
+                    TambahAkhirAssignment(nama_mka, hari_mka, jmlh_sks_mka, tingkat_kesulitan_mka, status);
+                }
+            }
+            system("clear");
+            file_assignment();
+            // totala += jmlh_inputa;
+
+            break;
+
+        case 3: // kembali ke menu utama
+            system("clear");
+            return;
+            break;
+
+        default:
+            // cout << "Please select available input menu : " << endl;
+            break;
+        }
+    } while (menu_input_1 != 3);
 }
 
 int main(){
