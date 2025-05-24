@@ -340,6 +340,55 @@ void cetakAssignment()
     }
 }
 
+void lesson_plan()
+{
+    int pil_lesson, difficulty, sks;
+    string deleteScheduleName, day;
+    do
+    {
+        cout << "=======================" << endl;
+        cout << "1. Priority lessons" << endl;
+        cout << "2. Delete lesson" << endl;
+        cout << "3. Return to main menu" << endl;
+        cout << "=======================" << endl;
+        cout << "Choose : ";
+        cin >> pil_lesson;
+        system("clear");
+
+        switch (pil_lesson)
+        {
+        case 1:
+            // cek_lesson_priority();
+            break;
+
+        case 2:
+            read_file_schedule();
+            // cek_lesson_priority();
+            cout << "Enter schedule name to delete : ";
+            cin.ignore(); // untuk bersihkan buffer
+            getline(cin, deleteScheduleName);
+            cout << "Schedule credit : ";
+            cin >> sks;
+            cout << "Schedule difficulty : ";
+            cin >> difficulty;
+            cout << "Schedule day : ";
+            cin.ignore();
+            getline(cin, day);
+            system("clear");
+            // hapus_lesson(deleteScheduleName.c_str(), day.c_str(), sks, difficulty);
+            break;
+
+        case 3:
+            system("clear");
+            return;
+            break;
+
+        default:
+            break;
+        }
+    } while (pil_lesson != 3);
+}
+
 void menu_input(int &pilih_menu_input)
 {
     do
