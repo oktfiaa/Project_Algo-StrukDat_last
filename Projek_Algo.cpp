@@ -42,6 +42,49 @@ void menu(int &pilmenu)
     system("clS");
 }
 
+void scheduleLL(string nama_mks, string hari_mks, int jmlh_sks_mks, int tingkat_kesulitan_mks)
+{
+    node_schedule *baru_s = new node_schedule; // buat node baru
+    strncpy(baru_s->nama_mks, nama_mks.c_str(), sizeof(baru_s->nama_mks));
+    strncpy(baru_s->hari_mks, hari_mks.c_str(), sizeof(baru_s->hari_mks));
+    baru_s->jmlh_sks_mks = jmlh_sks_mks;
+    baru_s->tingkat_kesulitan_mks = tingkat_kesulitan_mks;
+
+    baru_s->next = NULL;
+    kepala_s = ekor_s = baru_s;
+}
+
+void TambahAkhirSchedule(string nama_mks, string hari_mks, int jmlh_sks_mks, int tingkat_kesulitan_mks)
+{
+    node_schedule *baru_s = new node_schedule();
+    strncpy(baru_s->nama_mks, nama_mks.c_str(), sizeof(baru_s->nama_mks));
+    strncpy(baru_s->hari_mks, hari_mks.c_str(), sizeof(baru_s->hari_mks));
+    baru_s->jmlh_sks_mks = jmlh_sks_mks;
+    baru_s->tingkat_kesulitan_mks = tingkat_kesulitan_mks;
+    baru_s->next = NULL;
+    if (kepala_s == NULL)
+    {
+        kepala_s = ekor_s = baru_s;
+    }
+    else
+    {
+        ekor_s->next = baru_s;
+        ekor_s = baru_s;
+    }
+}
+
+void clearLL_Schedule()
+{
+    node_schedule *current = kepala_s;
+    while (current != NULL)
+    {
+        node_schedule *hapus = current;
+        current = current->next;
+        delete hapus;
+    }
+    kepala_s = NULL;
+}
+
 int main(){
     
 }
