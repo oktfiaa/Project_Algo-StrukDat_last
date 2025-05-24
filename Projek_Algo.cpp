@@ -287,6 +287,57 @@ void read_file_assignment()
     fclose(file);
 }
 
+void cetakSchedule()
+{
+    sorting_schedule_tingkat_kesulitan();
+    if (kepala_s == NULL)
+    {
+        cout << "Empty Linked List\n";
+    }
+    else
+    {
+        bantu_s = kepala_s;
+        int i = 0;
+        cout << "=====================================YOUR SCHEDULE=====================================" << endl;
+        while (bantu_s != NULL)
+        {
+            cout << "        " << i + 1 << ". " << bantu_s->nama_mks
+                 << " | Day : " << bantu_s->hari_mks
+                 << " | Total of SKS : " << bantu_s->jmlh_sks_mks
+                 << " | Dificulty Level : " << bantu_s->tingkat_kesulitan_mks << endl;
+            bantu_s = bantu_s->next;
+            i++;
+        }
+        cout << "=======================================================================================" << endl;
+    }
+}
+
+void cetakAssignment()
+{
+    read_file_assignment();
+    if (kepala_a == NULL)
+    {
+        cout << "Empty Linked List\n";
+    }
+    else
+    {
+        bantu_a = kepala_a;
+        int i = 0;
+        cout << "====================================YOUR ASSIGNMENT====================================" << endl;
+        while (bantu_a != NULL)
+        {
+            cout << i + 1 << ". " << bantu_a->nama_mka
+                 << " | Day : " << bantu_a->hari_mka
+                 << " | Total of SKS : " << bantu_a->jmlh_sks_mka
+                 << " | Dificulty Level : " << bantu_a->tingkat_kesulitan_mka
+                 << " | Status : " << bantu_a->status << endl;
+            bantu_a = bantu_a->next;
+            i++;
+        }
+        cout << "=======================================================================================" << endl;
+    }
+}
+
 int main(){
     
 }
