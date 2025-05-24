@@ -410,6 +410,49 @@ void cek_lesson_priority()
     cout << "==================================================================" << endl;
 }
 
+void hapus_lesson(char *namaSchedule, char* day, int sks, int difficulty)
+{
+
+    node_schedule *current = kepala_s;
+    node_schedule *prev = NULL;
+
+    while (current != NULL)
+    {
+        if ((strcmp(current->nama_mks, namaSchedule) == 0) && 
+            (strcmp(current->hari_mks, day) == 0) &&
+            (current->jmlh_sks_mks == sks) &&
+            (current->tingkat_kesulitan_mks == difficulty))
+        {
+            if (current == kepala_s)
+            {
+                kepala_s = kepala_s->next;
+                if (current == ekor_s)
+                {
+                    ekor_s = NULL;
+                }
+            }
+            else
+            {
+                if (prev != NULL)
+                {
+                    prev->next = current->next;
+                    if (current == ekor_s)
+                    {
+                        ekor_s = prev;
+                    }
+                }
+            }
+            delete current;
+            file_schedule();
+            cout << "Data \"" << namaSchedule << "\" berhasil dihapus dan file diperbarui.\n";
+            return;
+        }
+        prev = current;
+        current = current->next;
+    }
+    cout << "Data \"" << namaSchedule << "\" tidak ditemukan.\n";
+}
+
 void lesson_plan()
 {
     int pil_lesson, difficulty, sks;
