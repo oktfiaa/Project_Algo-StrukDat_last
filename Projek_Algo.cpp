@@ -488,7 +488,7 @@ void lesson_plan()
             cin.ignore();
             getline(cin, day);
             system("clear");
-            // hapus_lesson(deleteScheduleName.c_str(), day.c_str(), sks, difficulty);
+            hapus_lesson(deleteScheduleName.c_str(), day.c_str(), sks, difficulty);
             break;
 
         case 3:
