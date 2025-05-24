@@ -410,7 +410,7 @@ void cek_lesson_priority()
     cout << "==================================================================" << endl;
 }
 
-void hapus_lesson(char *namaSchedule, char* day, int sks, int difficulty)
+void hapus_lesson(const char *namaSchedule,const char* day, int sks, int difficulty)
 {
 
     node_schedule *current = kepala_s;
