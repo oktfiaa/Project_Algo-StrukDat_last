@@ -130,6 +130,66 @@ void TambahAkhirAssignment(string nama_mka, string hari_mka, int jmlh_sks_mka, i
     }
 }
 
+void file_schedule()
+{
+    FILE *file = fopen("schedule_data.txt", "wb");
+    if (file != NULL)
+    {
+        bantu_s = kepala_s;
+        while (bantu_s != NULL)
+        {
+            fwrite(bantu_s, sizeof(node_schedule) - sizeof(node_schedule *), 1, file);
+            bantu_s = bantu_s->next;
+        }
+        fclose(file);
+        cout << "Schedule data successfully saved in schedule_data.txt file!" << endl;
+    }
+    else
+    {
+        cout << "Failed to open the file to save the schedule data!";
+    }
+}
+
+void read_file_schedule()
+{
+    clearLL_Schedule();
+    FILE *file = fopen("schedule_data.txt", "rb");
+    if (file == NULL)
+    {
+        cout << "Failed to open the file to save the schedule data!";
+        return;
+    }
+
+    kepala_s = ekor_s = NULL;
+
+    while (true)
+    {
+        node_schedule *newS = new node_schedule();
+        int read = fread(newS, sizeof(node_schedule) - sizeof(node_schedule *), 1, file);
+
+        if (read != 1)
+        {
+            delete newS;
+            break;
+        }
+
+        newS->next = NULL;
+
+        if (kepala_s == NULL)
+        {
+            kepala_s = ekor_s = newS;
+        }
+        else
+        {
+            ekor_s->next = newS;
+            ekor_s = newS;
+        }
+    }
+
+    fclose(file);
+    // cout << "Schedule berhasil dimuat dari file.\n";
+}
+
 int main(){
     
 }
