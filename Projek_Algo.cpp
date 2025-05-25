@@ -680,6 +680,7 @@ void revert()
             {
                 cout << "No matching finished assignment found.\n";
                 cout << "Please check the input values (name, deadline, SKS, and difficulty).\n";
+                return;
                 system("pause");
                 system("cls");
             }
