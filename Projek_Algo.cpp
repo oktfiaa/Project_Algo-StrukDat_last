@@ -502,6 +502,317 @@ void lesson_plan()
     } while (pil_lesson != 3);
 }
 
+void mark()
+{
+    string assignment_name, day;
+    int SKS, difficulty;
+    char sure_or_not;
+
+    read_file_assignment();
+    cetakAssignment();
+    node_assignment *bantucek = kepala_a;
+
+    while (bantucek != NULL)
+    {
+        /*MENU UNTUK "ENTER ASSIGNMENT YOU WANT TO CHECKLIST. NANTI DI DALA
+        MNYA DITANYAIN YAKIN ATAU TIDAK, KALAU TIDAK NANTI RETURN. KALAU YAKIN LANJUT"*/
+
+        while (true)
+        {
+            cout << "Assignment name to checklist : ";
+            cin >> assignment_name;
+            cout << "Deadline : ";
+            cin >> day;
+            cout << "SKS amount : ";
+            cin >> SKS;
+            cout << "Difficulty level : ";
+            cin >> difficulty;
+            cout << "Type 'Y/y' to confirm completion, or 'N/n' to cancel: ";
+            cin >> sure_or_not;
+            system("clear");
+            if (sure_or_not == 'Y' || sure_or_not == 'y')
+            {
+                bool found = false;
+                bantucek = kepala_a;
+
+                while (bantucek != NULL)
+                {
+                    if (bantucek->nama_mka == assignment_name && bantucek->hari_mka == day && bantucek->jmlh_sks_mka == SKS && bantucek->tingkat_kesulitan_mka == difficulty)
+                    {
+                        if (strcmp(bantucek->status, "Finished") == 0)
+                        {
+                            cout << "INFO : Assignment status already setted to 'finished'!" << endl;
+                        }
+                        else
+                        {
+                            strcpy(bantucek->status, "Finished");
+                            found = true;
+                            cout << "INFO : Assignment status updated to 'finished'!" << endl;
+                            file_assignment();
+                            return;
+                        }
+                        return;
+                    }
+                    bantucek = bantucek->next;
+                    system("clear");
+                }
+
+                if (!found)
+                {
+                    cout << "No matching assignment found.\n";
+                    return;
+                }
+            }
+            else if (sure_or_not == 'N' || sure_or_not == 'n')
+            {
+                system("clear");
+                return;
+            }
+            else
+            {
+                cout << "Invalid input. Please type 'Y' to confirm or 'N' to cancel.\n";
+                cin.ignore();
+                cin.get();
+                system("clear");
+            }
+        }
+    }
+}
+
+void revert()
+{
+    string assignment_name, day;
+    int SKS, difficulty;
+    char sure_or_not;
+
+    read_file_assignment();
+    cetakAssignment();
+
+    while (true)
+    {
+        cout << "Assignment name to revert checklist : ";
+        cin >> assignment_name;
+        cout << "Deadline : ";
+        cin >> day;
+        cout << "SKS amount : ";
+        cin >> SKS;
+        cout << "Difficulty level : ";
+        cin >> difficulty;
+        cout << "Type 'Y/y' to revert assignment status, or 'N/n' to cancel: ";
+        cin >> sure_or_not;
+        system("clear");
+        if (sure_or_not == 'Y' || sure_or_not == 'y')
+        {
+            node_assignment *helpcek = kepala_a; // reset pointer setiap input
+
+            bool found = false;
+            while (helpcek != NULL)
+            {
+                if (strcmp(helpcek->nama_mka, assignment_name.c_str()) == 0 &&
+                    strcmp(helpcek->hari_mka, day.c_str()) == 0 &&
+                    helpcek->jmlh_sks_mka == SKS &&
+                    helpcek->tingkat_kesulitan_mka == difficulty &&
+                    strcmp(helpcek->status, "Finished") == 0)
+                {
+                    strcpy(helpcek->status, "Unfinished");
+                    cout << "INFO : Status reverted to 'Unfinished'.\n";
+                    found = true;
+                    file_assignment(); // simpan setelah update
+                    return;
+                }
+                helpcek = helpcek->next;
+                system("clear");
+            }
+
+            if (!found)
+            {
+                cout << "No matching finished assignment found.\n";
+            }
+        }
+        else if (sure_or_not == 'N' || sure_or_not == 'n')
+        {
+            system("clear");
+            return;
+        }
+        else
+        {
+            cout << "Invalid input. Please type 'Y' to revert status or 'N' to cancel.\n";
+            cin.ignore();
+            cin.get();
+            system("clear");
+        }
+    }
+}
+
+void show_unfinished()
+{
+    read_file_assignment();
+    node_assignment *current = kepala_a;
+    node_assignment *last = ekor_a;
+
+    int i = 0;
+    cout << "\n=====================UNFINISHED ASSIGNMENT========================" << endl;
+    while (current != NULL)
+    {
+        if (strcmp(current->status, "Unfinished") == 0)
+        {
+            cout << i + 1 << ". " << current->nama_mka
+                 << " | Day : " << current->hari_mka
+                 << " | Total of SKS : " << current->jmlh_sks_mka
+                 << " | Dificulty Level : " << current->tingkat_kesulitan_mka
+                 << " | Status : " << current->status << endl;
+            i++;
+        }
+        current = current->next;
+    }
+    cout << "==================================================================" << endl;
+}
+
+void show_finished()
+{
+    read_file_assignment();
+    node_assignment *current = kepala_a;
+    node_assignment *last = ekor_a;
+
+    int i = 0;
+    cout << "\n=====================UNFINISHED ASSIGNMENT========================" << endl;
+    while (current != NULL)
+    {
+        if (strcmp(current->status, "Finished") == 0)
+        {
+            cout << i + 1 << ". " << current->nama_mka
+                 << " | Deadline : " << current->hari_mka
+                 << " | Total of SKS : " << current->jmlh_sks_mka
+                 << " | Dificulty Level : " << current->tingkat_kesulitan_mka
+                 << " | Status : " << current->status << endl;
+            i++;
+        }
+        current = current->next;
+    }
+    cout << "==================================================================" << endl;
+}
+
+void delete_checklist(const char *namaAssignment, const char *hariAssignment, int sks, int kesulitan)
+{
+    node_assignment *current = kepala_a;
+    node_assignment *prev = NULL;
+    bool found = false;
+
+    while (current != NULL)
+    {
+        if (
+            strcmp(current->nama_mka, namaAssignment) == 0 &&
+            strcmp(current->hari_mka, hariAssignment) == 0 &&
+            current->jmlh_sks_mka == sks &&
+            current->tingkat_kesulitan_mka == kesulitan)
+        {
+            if (strcmp(current->status, "Finished") != 0)
+            {
+                cout << "ERROR: Assignment ditemukan, tetapi belum selesai. Tidak dapat dihapus.\n";
+                return;
+            }
+
+            found = true;
+
+            // Hapus node
+            if (current == kepala_a)
+            {
+                kepala_a = kepala_a->next;
+                if (current == ekor_a)
+                {
+                    ekor_a = NULL;
+                }
+            }
+            else
+            {
+                prev->next = current->next;
+                if (current == ekor_a)
+                {
+                    ekor_a = prev;
+                }
+            }
+
+            delete current;
+            file_assignment();
+            cout << "INFO: Assignment \"" << namaAssignment << "\" berhasil dihapus.\n";
+            return;
+        }
+
+        prev = current;
+        current = current->next;
+    }
+
+    if (!found)
+    {
+        cout << "ERROR: Assignment tidak ditemukan dengan kriteria tersebut.\n";
+    }
+}
+
+void checklist_lesson()
+{
+    int pil_checklist, assignmentAmount, Assignment_div_lvl;
+    string AssignmentName, assignmentDay;
+
+    do
+    {
+        cout << "==================================" << endl;
+        cout << "1. Mark the checklist as complete" << endl;
+        cout << "2. Revert status to unfinished" << endl;
+        cout << "3. Show only unfinished checklists" << endl;
+        cout << "4. Show completed checklist" << endl;
+        cout << "5. Delete completed checklist" << endl;
+        cout << "6. Return to main menu" << endl;
+        cout << "==================================" << endl;
+        cout << "Choose : ";
+        cin >> pil_checklist;
+        system("clear");
+
+        switch (pil_checklist)
+        {
+        case 1:
+            mark();
+            break;
+
+        case 2:
+            revert();
+            break;
+
+        case 3:
+            show_unfinished();
+            break;
+
+        case 4:
+            show_finished();
+            break;
+
+        case 5:
+            read_file_schedule();
+            show_finished();
+            cout << "Assignment name to delete : ";
+            cin.ignore(); // untuk bersihkan buffer
+            getline(cin, AssignmentName);
+            cout << "Assignment Deadline : ";
+            cin >> assignmentDay;
+            cout << "Assignment SKS amount : ";
+            cin >> assignmentAmount;
+            cout << "Assignment difficulty level : ";
+            cin >> Assignment_div_lvl;
+            system("clear");
+            // hapus_lesson(deleteAssignmentName.c_str());
+
+            delete_checklist(AssignmentName.c_str(), assignmentDay.c_str(), assignmentAmount, Assignment_div_lvl);
+            break;
+
+        case 6:
+            return;
+            break;
+
+        default:
+            break;
+        }
+    } while (pil_checklist != 6);
+}
+
 void menu_input(int &pilih_menu_input)
 {
     do
