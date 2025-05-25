@@ -205,8 +205,7 @@ void read_file_schedule()
     FILE *file = fopen("schedule_data.txt", "rb");
     if (file == NULL)
     {
-        cout << "FILE INFO : Failed to open the file to save the schedule data!\n"
-             << endl;
+        cout << "FILE INFO : Failed to open the file to save the schedule data!\n" << endl;
         return;
     }
 
@@ -251,13 +250,11 @@ void file_assignment()
             bantu_a = bantu_a->next;
         }
         fclose(file);
-        cout << "FILE STATUS : Assignment data successfully saved in assignment_data.txt file!\n"
-             << endl;
+        cout << "FILE STATUS : Assignment data successfully saved in assignment_data.txt file!\n" << endl;
     }
     else
     {
-        cout << "FILE STATUS : Failed to open the file to save the assignment data!\n"
-             << endl;
+        cout << "FILE STATUS : Failed to open the file to save the assignment data!\n" << endl;
     }
 }
 
@@ -267,8 +264,7 @@ void read_file_assignment()
     FILE *file = fopen("assignment_data.txt", "rb");
     if (file == NULL)
     {
-        cout << "FILE INFO : Failed to open the file to save the assignment data!\n"
-             << endl;
+        cout << "FILE INFO : Failed to open the file to save the assignment data!\n" << endl;
         return;
     }
 
@@ -436,7 +432,7 @@ void cek_lesson_priority()
     cout << "==================================================================" << endl;
 }
 
-void hapus_lesson(const char *namaSchedule, const char *day, int sks, int difficulty)
+void hapus_lesson(const char *namaSchedule,const char* day, int sks, int difficulty)
 {
 
     node_schedule *current = kepala_s;
@@ -444,7 +440,7 @@ void hapus_lesson(const char *namaSchedule, const char *day, int sks, int diffic
 
     while (current != NULL)
     {
-        if ((strcmp(current->nama_mks, namaSchedule) == 0) &&
+        if ((strcmp(current->nama_mks, namaSchedule) == 0) && 
             (strcmp(current->hari_mks, day) == 0) &&
             (current->jmlh_sks_mks == sks) &&
             (current->tingkat_kesulitan_mks == difficulty))
@@ -615,8 +611,7 @@ void revert()
     char sure_or_not;
 
     read_file_assignment();
-    if (kepala_a == NULL)
-    {
+    if (kepala_a == NULL) {
         cout << "Belum ada data assignment.\n";
         system("pause");
         system("cls");
@@ -831,62 +826,59 @@ void checklist_lesson()
             break;
 
         case 5:
-            read_file_assignment();
+    read_file_assignment();
 
-            // Cek apakah ada data assignment
-            if (kepala_a == NULL)
-            {
-                cout << "Tidak ada data assignment yang bisa dihapus.\n";
-                system("pause");
-                system("cls");
+    // Cek apakah ada data assignment
+    if (kepala_a == NULL) {
+        cout << "Tidak ada data assignment yang bisa dihapus.\n";
+        system("pause");
+        system("cls");
+        break;
+    }
+
+    // Cek apakah ada assignment yang finished
+    {
+        node_assignment *temp = kepala_a;
+        bool adaFinished = false;
+        while (temp != NULL) {
+            if (strcmp(temp->status, "Finished") == 0) {
+                adaFinished = true;
                 break;
             }
+            temp = temp->next;
+        }
 
-            // Cek apakah ada assignment yang finished
-            {
-                node_assignment *temp = kepala_a;
-                bool adaFinished = false;
-                while (temp != NULL)
-                {
-                    if (strcmp(temp->status, "Finished") == 0)
-                    {
-                        adaFinished = true;
-                        break;
-                    }
-                    temp = temp->next;
-                }
-
-                if (!adaFinished)
-                {
-                    cout << "Tidak ada assignment yang selesai untuk dihapus.\n";
-                    system("pause");
-                    system("cls");
-                    break;
-                }
-            }
-
-            show_finished();
-
-            cout << "Assignment name to delete : ";
-            cin.ignore(); // untuk bersihkan buffer
-            getline(cin, AssignmentName);
-            cout << "Assignment Deadline : ";
-            cin >> assignmentDay;
-            cout << "Assignment SKS amount : ";
-            cin >> assignmentAmount;
-            cout << "Assignment difficulty level : ";
-            cin >> Assignment_div_lvl;
+        if (!adaFinished) {
+            cout << "Tidak ada assignment yang selesai untuk dihapus.\n";
+            system("pause");
             system("cls");
-
-            delete_checklist(AssignmentName.c_str(), assignmentDay.c_str(), assignmentAmount, Assignment_div_lvl);
             break;
+        }
+    }
+
+    show_finished();
+
+    cout << "Assignment name to delete : ";
+    cin.ignore(); // untuk bersihkan buffer
+    getline(cin, AssignmentName);
+    cout << "Assignment Deadline : ";
+    cin >> assignmentDay;
+    cout << "Assignment SKS amount : ";
+    cin >> assignmentAmount;
+    cout << "Assignment difficulty level : ";
+    cin >> Assignment_div_lvl;
+    system("cls");
+
+    delete_checklist(AssignmentName.c_str(), assignmentDay.c_str(), assignmentAmount, Assignment_div_lvl);
+    break;
+
         }
     } while (pil_checklist != 6);
 }
 
-// MENU 5 NOTES
+//MENU 5 NOTES
 struct node_notes
-{
+{ 
     char isinotes[9999], judulnotes[999], tanggal[20];
     node_notes *next;
 };
@@ -895,8 +887,7 @@ node_notes *kepala_n = NULL; // buat kepala node notes
 node_notes *ekor_n = NULL;   // buat ekor node notes
 node_notes *bantu_n = NULL;
 
-void clearNotes()
-{
+void clearNotes(){
     node_notes *current = kepala_n;
     while (current != NULL)
     {
@@ -908,38 +899,31 @@ void clearNotes()
     ekor_n = NULL;
 }
 
-void baca_notes()
-{
+void baca_notes() {
     clearNotes();
 
-    FILE *file = fopen("notes.txt", "rb");
-    if (file == NULL)
-    {
+    FILE *file= fopen("notes.txt", "rb");
+    if(file == NULL){
         return;
     }
 
     // kepala_n = ekor_n = NULL;
 
-    while (true)
-    {
+    while(true){
         node_notes *baru_n = new node_notes;
 
-        int read = fread(baru_n, sizeof(node_notes) - sizeof(node_notes *), 1, file);
+        int read = fread(baru_n, sizeof(node_notes) - sizeof(node_notes*), 1, file);
 
-        if (read != 1)
-        {
+        if(read != 1){
             delete baru_n;
             break;
         }
 
         baru_n->next = NULL;
 
-        if (kepala_n == NULL)
-        {
+        if(kepala_n == NULL){
             kepala_n = ekor_n = baru_n;
-        }
-        else
-        {
+        }else{
             ekor_n->next = baru_n;
             ekor_n = baru_n;
         }
@@ -948,21 +932,16 @@ void baca_notes()
     fclose(file);
 }
 
-void simpan_notes_ke_file()
-{
+void simpan_notes_ke_file() {
     FILE *file = fopen("notes.txt", "wb");
-    if (file != NULL)
-    {
+    if (file != NULL) {
         node_notes *bantu_n = kepala_n;
-        while (bantu_n != NULL)
-        {
-            fwrite(bantu_n, sizeof(node_notes) - sizeof(node_notes *), 1, file);
+        while (bantu_n != NULL) {
+            fwrite(bantu_n, sizeof(node_notes) - sizeof(node_notes*), 1, file);
             bantu_n = bantu_n->next;
         }
         fclose(file);
-    }
-    else
-    {
+    } else {
         cout << "Failed to save notes to file!" << endl;
     }
 }
@@ -974,7 +953,7 @@ void input_notes()
     node_notes *baru_n = new node_notes;
     baru_n->next = NULL;
 
-    cin.ignore();
+    cin.ignore(); 
 
     cout << "Tittle : ";
     cin.getline(baru_n->judulnotes, sizeof(baru_n->judulnotes));
@@ -982,18 +961,15 @@ void input_notes()
     cout << "Write your note : ";
     cin.getline(baru_n->isinotes, sizeof(baru_n->isinotes));
 
-    cout << "Date [yyyy-mm-dd]: ";
+    cout << "Date [yyyy-mm-dd]: "; 
     cin.getline(baru_n->tanggal, sizeof(baru_n->tanggal));
 
     // cin.get();
     // system("cls");
 
-    if (kepala_n == NULL)
-    {
+    if (kepala_n == NULL) {
         kepala_n = ekor_n = baru_n;
-    }
-    else
-    {
+    } else {
         ekor_n->next = baru_n;
         ekor_n = baru_n;
     }
@@ -1008,8 +984,7 @@ void cetak_notes()
     baca_notes();
 
     node_notes *bantu_n = kepala_n;
-    if (bantu_n == NULL)
-    {
+    if (bantu_n == NULL) {
         cout << "No notes found." << endl;
         return;
     }
@@ -1029,41 +1004,35 @@ void cetak_notes()
     system("cls");
 }
 
-void sort_notes_by_date()
-{
+void sort_notes_by_date(){
     baca_notes();
 
-    if (kepala_n == NULL)
-    {
+    if (kepala_n == NULL) {
         cout << "No notes to sort." << endl;
         return;
     }
 
-    // pindah linked list ke array
+    //pindah linked list ke array
     node_notes *NOTES[9999];
     int count = 0;
     bantu_n = kepala_n;
-    while (bantu_n != NULL && count < 9999)
-    {
+    while (bantu_n != NULL && count < 9999) {
         NOTES[count++] = bantu_n;
         bantu_n = bantu_n->next;
     }
 
-    // bubble sort by date
-    for (int i = 0; i < count - 1; ++i)
-    {
-        for (int j = 0; j < count - i - 1; ++j)
-        {
-            if (strcmp(NOTES[j]->tanggal, NOTES[j + 1]->tanggal) > 0)
-            {
+
+    //bubble sort by date
+    for (int i = 0; i < count - 1; ++i) {
+        for (int j = 0; j < count - i - 1; ++j) {
+            if (strcmp(NOTES[j]->tanggal, NOTES[j + 1]->tanggal) > 0) {
                 swap(NOTES[j], NOTES[j + 1]);
             }
         }
     }
 
     cout << "====================== Note ======================" << endl;
-    for (int i = 0; i < count; i++)
-    {
+    for (int i = 0; i < count; i++) {
         cout << "Tittle  : " << NOTES[i]->judulnotes << endl;
         cout << "Content : " << NOTES[i]->isinotes << endl;
         cout << "Date    : " << NOTES[i]->tanggal << endl;
@@ -1071,13 +1040,11 @@ void sort_notes_by_date()
     }
 }
 
-// sequential
-void search_notes_by_tittle()
-{
+//sequential
+void search_notes_by_tittle(){
     baca_notes();
 
-    if (kepala_n == NULL)
-    {
+    if (kepala_n == NULL) {
         cout << "Notes empty" << endl;
         return;
     }
@@ -1092,7 +1059,7 @@ void search_notes_by_tittle()
 
     while (bantu_n != NULL)
     {
-        if (strcmp(bantu_n->judulnotes, cari) == 0)
+        if (strcmp (bantu_n -> judulnotes, cari) == 0)
         {
             cout << "====================== Notes ======================" << endl;
             cout << "Tittle  : " << bantu_n->judulnotes << endl;
@@ -1102,7 +1069,7 @@ void search_notes_by_tittle()
             found = true;
             break;
         }
-        bantu_n = bantu_n->next;
+        bantu_n = bantu_n -> next;
     }
     if (!found)
     {
@@ -1110,12 +1077,10 @@ void search_notes_by_tittle()
     }
 }
 
-void hapus_notes()
-{
+void hapus_notes(){
     baca_notes();
 
-    if (kepala_n == NULL)
-    {
+    if (kepala_n == NULL) {
         cout << "Notes empty" << endl;
         return;
     }
@@ -1126,12 +1091,11 @@ void hapus_notes()
     cout << "Enter the title of the note to be deleted :";
     cin.getline(cari_hapus, sizeof(cari_hapus));
 
-    if (strcmp(kepala_n->judulnotes, cari_hapus) == 0)
-    {
-        node_notes *hapus = kepala_n;
+
+    if (strcmp(kepala_n->judulnotes, cari_hapus) == 0) {
+        node_notes* hapus = kepala_n;
         kepala_n = kepala_n->next;
-        if (hapus == ekor_n)
-        {
+        if (hapus == ekor_n) { 
             ekor_n = NULL;
         }
         delete hapus;
@@ -1139,22 +1103,17 @@ void hapus_notes()
         cout << "Click Enter to return the Notes Menu" << endl;
         simpan_notes_ke_file();
         return;
-    }
-    else
-    {
-        node_notes *bantu_n = kepala_n;
+    } else {
+        node_notes* bantu_n = kepala_n;
         bool deleted = false;
 
         // Loop sampai bantu_n->next bernilai NULL (jangan sampai NULL saat akses .next)
-        while (bantu_n->next != NULL)
-        {
-            if (strcmp(bantu_n->next->judulnotes, cari_hapus) == 0)
-            {
-                node_notes *hapus = bantu_n->next;
+        while (bantu_n->next != NULL) {
+            if (strcmp(bantu_n->next->judulnotes, cari_hapus) == 0) {
+                node_notes* hapus = bantu_n->next;
                 bantu_n->next = hapus->next;
 
-                if (hapus == ekor_n)
-                {
+                if (hapus == ekor_n) {
                     ekor_n = bantu_n;
                 }
 
@@ -1166,15 +1125,13 @@ void hapus_notes()
             }
             bantu_n = bantu_n->next;
         }
-        if (!deleted)
-        {
+        if (!deleted) {
             cout << "Note with title \"" << cari_hapus << "\" not found." << endl;
         }
     }
 }
 
-void menu_notes()
-{
+void menu_notes(){
     int menu_notes_3;
     do
     {
@@ -1204,13 +1161,13 @@ void menu_notes()
             system("cls");
             break;
 
-        case 3:
+        case 3 : 
             search_notes_by_tittle();
             system("pause");
             system("cls");
             break;
 
-        case 4:
+        case 4 : 
             hapus_notes();
             system("pause");
             system("cls");
@@ -1385,8 +1342,7 @@ void menu_show(int pilih_menu_show)
     system("cls");
 }
 
-int main()
-{
+int main(){
     int pilmenu, pilih_menu_input, pilih_menu_show;
 
     do
