@@ -544,7 +544,8 @@ void mark()
         while (true)
         {
             cout << "Assignment name to checklist : ";
-            cin >> assignment_name;
+            cin.ignore();
+            getline(cin, assignment_name);
             cout << "Deadline : ";
             cin >> day;
             cout << "Total of SKS : ";
@@ -615,7 +616,8 @@ void revert()
     while (true)
     {
         cout << "Assignment name to revert checklist : ";
-        cin >> assignment_name;
+        cin.ignore();
+        getline(cin, assignment_name);
         cout << "Deadline : ";
         cin >> day;
         cout << "Total of SKS : ";
