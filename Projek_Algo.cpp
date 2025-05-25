@@ -336,7 +336,7 @@ void cetakAssignment()
         while (bantu_a != NULL)
         {
             cout << i + 1 << ". " << bantu_a->nama_mka
-                 << " | Day : " << bantu_a->hari_mka
+                 << " | Deadline : " << bantu_a->hari_mka
                  << " | Total of SKS : " << bantu_a->jmlh_sks_mka
                  << " | Dificulty Level : " << bantu_a->tingkat_kesulitan_mka
                  << " | Status : " << bantu_a->status << endl;
@@ -424,10 +424,10 @@ void cek_lesson_priority()
     for (int i = 0; i < count; i++)
     {
         cout << i + 1 << ". " << Plan[i].nama_mks
-             << " | SKS: " << Plan[i].sks
-             << " | Kesulitan: " << Plan[i].kesulitan
-             << " | Hari nilai: " << Plan[i].hari
-             << " | Skor: " << Plan[i].skor << endl;
+             << " | Total of SKS : " << Plan[i].sks
+             << " | Dificulty Level: " << Plan[i].kesulitan
+             << " | Day : " << Plan[i].hari
+             << " | Skor : " << Plan[i].skor << endl;
     }
     cout << "==================================================================" << endl;
 }
@@ -494,6 +494,8 @@ void lesson_plan()
         {
         case 1:
             cek_lesson_priority();
+            system("pause");
+            system("cls");
             break;
 
         case 2:
@@ -545,7 +547,7 @@ void mark()
             cin >> assignment_name;
             cout << "Deadline : ";
             cin >> day;
-            cout << "SKS amount : ";
+            cout << "Total of SKS : ";
             cin >> SKS;
             cout << "Difficulty level : ";
             cin >> difficulty;
@@ -616,7 +618,7 @@ void revert()
         cin >> assignment_name;
         cout << "Deadline : ";
         cin >> day;
-        cout << "SKS amount : ";
+        cout << "Total of SKS : ";
         cin >> SKS;
         cout << "Difficulty level : ";
         cin >> difficulty;
@@ -679,7 +681,7 @@ void show_unfinished()
         if (strcmp(current->status, "Unfinished") == 0)
         {
             cout << i + 1 << ". " << current->nama_mka
-                 << " | Day : " << current->hari_mka
+                 << " | Deadline : " << current->hari_mka
                  << " | Total of SKS : " << current->jmlh_sks_mka
                  << " | Dificulty Level : " << current->tingkat_kesulitan_mka
                  << " | Status : " << current->status << endl;
@@ -697,7 +699,7 @@ void show_finished()
     node_assignment *last = ekor_a;
 
     int i = 0;
-    cout << "\n=====================UNFINISHED ASSIGNMENT========================" << endl;
+    cout << "\n======================FINISHED ASSIGNMENT=========================" << endl;
     while (current != NULL)
     {
         if (strcmp(current->status, "Finished") == 0)
@@ -793,18 +795,26 @@ void checklist_lesson()
         {
         case 1:
             mark();
+            system("pause");
+            system("cls");
             break;
 
         case 2:
             revert();
+            system("pause");
+            system("cls");
             break;
 
         case 3:
             show_unfinished();
+            system("pause");
+            system("cls");
             break;
 
         case 4:
             show_finished();
+            system("pause");
+            system("cls");
             break;
 
         case 5:
@@ -1029,15 +1039,10 @@ void search_notes_by_tittle(){
             break;
         }
         bantu_n = bantu_n -> next;
-        // cin.get();
-        // system("cls");
     }
     if (!found)
     {
         cout << "Note with title " << cari << " not found" << endl;
-        cout << "Click Enter to return the Notes Menu" << endl;
-        // cin.get();
-        // system("cls");
     }
 }
 
@@ -1083,7 +1088,6 @@ void hapus_notes(){
 
                 delete hapus;
                 cout << "Note with tittle " << cari_hapus << " successfully deleted" << endl;
-                cout << "Click Enter to return the Notes Menu" << endl;
                 deleted = true;
                 simpan_notes_ke_file();
                 break;
@@ -1092,8 +1096,6 @@ void hapus_notes(){
         }
         if (!deleted) {
             cout << "Note with title \"" << cari_hapus << "\" not found." << endl;
-            cout << "Click Enter to return the Notes Menu" << endl;
-            cin.get();
         }
     }
 }
@@ -1124,16 +1126,20 @@ void menu_notes(){
 
         case 2:
             sort_notes_by_date();
-            // system("cls");
+            system("pause");
+            system("cls");
             break;
 
         case 3 : 
             search_notes_by_tittle();
-            // system("cls");
+            system("pause");
+            system("cls");
             break;
 
         case 4 : 
             hapus_notes();
+            system("pause");
+            system("cls");
             break;
 
         case 5:
@@ -1279,6 +1285,7 @@ void menu_show(int pilih_menu_show)
             clearLL_Schedule();
             read_file_schedule();
             cetakSchedule();
+            system("pause");
             system("cls");
             break;
 
@@ -1286,6 +1293,7 @@ void menu_show(int pilih_menu_show)
             clearLL_Assignment();
             read_file_assignment();
             cetakAssignment();
+            system("pause");
             system("cls");
             break;
 
@@ -1332,6 +1340,7 @@ int main(){
             break;
 
         case 0:
+            cout << "Thank You for Using The Program :)" << endl;
             break;
 
         default:
