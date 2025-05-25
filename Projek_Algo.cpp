@@ -1178,7 +1178,6 @@ void menu_notes()
     int menu_notes_3;
     do
     {
-        // getchar();
         cout << "========================" << endl;
         cout << "Choose notes menu : " << endl;
         cout << "========================" << endl;
@@ -1190,7 +1189,6 @@ void menu_notes()
         cout << "========================" << endl;
         cout << "Choose show menu : ";
         cin >> menu_notes_3;
-        // getchar();
         system("cls");
         switch (menu_notes_3)
         {
@@ -1236,8 +1234,6 @@ void menu_input(int &pilih_menu_input)
     {
         string nama_mks, hari_mks, nama_mka, hari_mka, status;
         int jmlh_inputs, jmlh_inputa, jmlh_sks_mks, tingkat_kesulitan_mks, jmlh_sks_mka, tingkat_kesulitan_mka;
-        // int totals = 0;
-        // int totala = 0;
 
         cout << "===============================" << endl;
         cout << "Choose input menu : " << endl;
@@ -1283,8 +1279,6 @@ void menu_input(int &pilih_menu_input)
             }
             system("cls");
             file_schedule();
-            // totals += jmlh_inputs;
-            // system("cls");
 
             break;
 
@@ -1306,8 +1300,6 @@ void menu_input(int &pilih_menu_input)
                 cout << "Level of difficulty [1-10]: ";
                 cin >> tingkat_kesulitan_mka;
                 cin.ignore();
-                // cout << "Status : ";
-                // getline(cin, status);
                 status = "Unfinished";
                 cout << "============================================\n";
 
@@ -1322,17 +1314,16 @@ void menu_input(int &pilih_menu_input)
             }
             system("cls");
             file_assignment();
-            // totala += jmlh_inputa;
 
             break;
 
-        case 3: // kembali ke menu utama
+        case 3: 
             system("cls");
             return;
             break;
 
         default:
-            // cout << "Please select available input menu : " << endl;
+            
             break;
         }
     } while (menu_input_1 != 3);
