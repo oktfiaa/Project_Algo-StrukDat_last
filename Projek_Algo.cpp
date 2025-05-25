@@ -83,7 +83,7 @@ void TambahAkhirSchedule(string nama_mks, string hari_mks, int jmlh_sks_mks, int
     }
 }
 
-void clsLL_Schedule()
+void clearLL_Schedule()
 {
     node_schedule *current = kepala_s;
     while (current != NULL)
@@ -95,7 +95,7 @@ void clsLL_Schedule()
     kepala_s = NULL;
 }
 
-void clsLL_Assignment()
+void clearLL_Assignment()
 {
     node_assignment *current = kepala_a;
     while (current != NULL)
@@ -191,21 +191,21 @@ void file_schedule()
             bantu_s = bantu_s->next;
         }
         fclose(file);
-        cout << "Schedule data successfully saved in schedule_data.txt file!" << endl;
+        cout << "SAVE STATUS : Schedule data successfully saved in schedule_data.txt file!" << endl;
     }
     else
     {
-        cout << "Failed to open the file to save the schedule data!" << endl;
+        cout << "FILE INFO : Failed to open the file to save the schedule data!" << endl;
     }
 }
 
 void read_file_schedule()
 {
-    clsLL_Schedule();
+    clearLL_Schedule();
     FILE *file = fopen("schedule_data.txt", "rb");
     if (file == NULL)
     {
-        cout << "Failed to open the file to save the schedule data!" << endl;
+        cout << "FILE INFO : Failed to open the file to save the schedule data!\n" << endl;
         return;
     }
 
@@ -250,20 +250,21 @@ void file_assignment()
             bantu_a = bantu_a->next;
         }
         fclose(file);
-        cout << "Assignment data successfully saved in assignment_data.txt file!" << endl;
+        cout << "FILE STATUS : Assignment data successfully saved in assignment_data.txt file!\n" << endl;
     }
     else
     {
-        cout << "Failed to open the file to save the assignment data!" << endl;
+        cout << "FILE STATUS : Failed to open the file to save the assignment data!\n" << endl;
     }
 }
 
 void read_file_assignment()
 {
+    clearLL_Assignment();
     FILE *file = fopen("assignment_data.txt", "rb");
     if (file == NULL)
     {
-        cout << "Failed to open the file to save the assignment data!" << endl;
+        cout << "FILE INFO : Failed to open the file to save the assignment data!\n" << endl;
         return;
     }
 
@@ -301,7 +302,7 @@ void cetakSchedule()
     sorting_schedule_tingkat_kesulitan();
     if (kepala_s == NULL)
     {
-        cout << "Empty Linked List\n";
+        cout << "LINKED LIST INFO : Empty Linked List\n";
     }
     else
     {
@@ -323,10 +324,9 @@ void cetakSchedule()
 
 void cetakAssignment()
 {
-    read_file_assignment();
     if (kepala_a == NULL)
     {
-        cout << "Empty Linked List\n";
+        cout << "LINKED LIST INFO : Empty Linked List\n";
     }
     else
     {
@@ -846,7 +846,7 @@ node_notes *kepala_n = NULL; // buat kepala node notes
 node_notes *ekor_n = NULL;   // buat ekor node notes
 node_notes *bantu_n = NULL;
 
-void clsNotes(){
+void clearNotes(){
     node_notes *current = kepala_n;
     while (current != NULL)
     {
@@ -859,7 +859,7 @@ void clsNotes(){
 }
 
 void baca_notes() {
-    clsNotes();
+    clearNotes();
 
     FILE *file= fopen("notes.txt", "rb");
     if(file == NULL){
@@ -1276,18 +1276,16 @@ void menu_show(int pilih_menu_show)
         switch (menu_show_2)
         {
         case 1:
-            clsLL_Schedule();
+            clearLL_Schedule();
             read_file_schedule();
             cetakSchedule();
-            cin.get();
             system("cls");
             break;
 
         case 2:
-            clsLL_Assignment();
+            clearLL_Assignment();
             read_file_assignment();
             cetakAssignment();
-            cin.get();
             system("cls");
             break;
 
