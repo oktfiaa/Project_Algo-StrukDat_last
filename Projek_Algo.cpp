@@ -399,7 +399,6 @@ void cek_lesson_priority()
         strcpy(data.nama_mks, cek->nama_mks);
         data.sks = cek->jmlh_sks_mks;
         data.kesulitan = cek->tingkat_kesulitan_mks;
-        // data.hari = konversiHari(cek->hari_mks);
         strcpy(data.hari, cek->hari_mks);
         data.skor = data.sks * 100 + data.kesulitan * 10;
         Plan[count++] = data;
@@ -409,7 +408,7 @@ void cek_lesson_priority()
 
     if (count == 0)
     {
-        cout << "Tidak ada data schedule yang bisa diproses.\n";
+        cout << "No schedule data can be processed.\n";
         return;
     }
 
@@ -476,7 +475,7 @@ void hapus_lesson(const char *namaSchedule, const char *day, int sks, int diffic
         prev = current;
         current = current->next;
     }
-    cout << "Data \"" << namaSchedule << "\" tidak ditemukan.\n";
+    cout << "Data with name : \"" << namaSchedule << "\", not found.\n";
 }
 
 void lesson_plan()
@@ -525,6 +524,9 @@ void lesson_plan()
             break;
 
         default:
+            cout << "Invalid Option, Please Select an Existing Menu" << endl;
+            system("pause");
+            system("cls");
             break;
         }
     } while (pil_lesson != 3);
@@ -537,73 +539,84 @@ void mark()
     char sure_or_not;
 
     read_file_assignment();
-    cetakAssignment();
-    node_assignment *bantucek = kepala_a;
 
-    while (bantucek != NULL)
+    if (kepala_a == NULL)
     {
-        /*MENU UNTUK "ENTER ASSIGNMENT YOU WANT TO CHECKLIST. NANTI DI DALA
-        MNYA DITANYAIN YAKIN ATAU TIDAK, KALAU TIDAK NANTI RETURN. KALAU YAKIN LANJUT"*/
+        cout << "No assignment data found.\n";
+        system("pause");
+        system("cls");
+        return;
+    }
 
-        while (true)
+    while (true)
+    {
+        cetakAssignment(); // tampilkan assignment setiap input ulang
+
+        cout << "Assignment name to checklist : ";
+        cin.ignore();
+        getline(cin, assignment_name);
+        cout << "Deadline : ";
+        cin >> day;
+        cout << "Total of SKS : ";
+        cin >> SKS;
+        cout << "Difficulty level : ";
+        cin >> difficulty;
+        cout << "Type 'Y/y' to confirm completion, or 'N/n' to cancel: ";
+        cin >> sure_or_not;
+        system("cls");
+
+        if (sure_or_not == 'Y' || sure_or_not == 'y')
         {
-            cout << "Assignment name to checklist : ";
-            cin.ignore();
-            getline(cin, assignment_name);
-            cout << "Deadline : ";
-            cin >> day;
-            cout << "Total of SKS : ";
-            cin >> SKS;
-            cout << "Difficulty level : ";
-            cin >> difficulty;
-            cout << "Type 'Y/y' to confirm completion, or 'N/n' to cancel: ";
-            cin >> sure_or_not;
-            system("cls");
-            if (sure_or_not == 'Y' || sure_or_not == 'y')
-            {
-                bool found = false;
-                bantucek = kepala_a;
+            node_assignment *bantucek = kepala_a;
+            bool found = false;
 
-                while (bantucek != NULL)
+            while (bantucek != NULL)
+            {
+                if (bantucek->nama_mka == assignment_name &&
+                    bantucek->hari_mka == day &&
+                    bantucek->jmlh_sks_mka == SKS &&
+                    bantucek->tingkat_kesulitan_mka == difficulty)
                 {
-                    if (bantucek->nama_mka == assignment_name && bantucek->hari_mka == day && bantucek->jmlh_sks_mka == SKS && bantucek->tingkat_kesulitan_mka == difficulty)
+                    if (strcmp(bantucek->status, "Finished") == 0)
                     {
-                        if (strcmp(bantucek->status, "Finished") == 0)
-                        {
-                            cout << "INFO : Assignment status already setted to 'finished'!" << endl;
-                        }
-                        else
-                        {
-                            strcpy(bantucek->status, "Finished");
-                            found = true;
-                            cout << "INFO : Assignment status updated to 'finished'!" << endl;
-                            file_assignment();
-                            return;
-                        }
+                        cout << "INFO : Assignment status already set to 'Finished'.\n";
+                        system("pause");
+                        system("cls");
                         return;
                     }
-                    bantucek = bantucek->next;
-                    system("cls");
+                    else
+                    {
+                        strcpy(bantucek->status, "Finished");
+                        cout << "INFO : Assignment status updated to 'Finished'.\n";
+                        file_assignment();
+                        system("pause");
+                        system("cls");
+                        return;
+                    }
                 }
+                bantucek = bantucek->next;
+            }
 
-                if (!found)
-                {
-                    cout << "No matching assignment found.\n";
-                    return;
-                }
-            }
-            else if (sure_or_not == 'N' || sure_or_not == 'n')
+            if (!found)
             {
+                cout << "No matching assignment found.\n";
+                system("pause");
                 system("cls");
-                return;
+                // loop ulang untuk input baru
             }
-            else
-            {
-                cout << "Invalid input. Please type 'Y' to confirm or 'N' to cancel.\n";
-                cin.ignore();
-                cin.get();
-                system("cls");
-            }
+        }
+        else if (sure_or_not == 'N' || sure_or_not == 'n')
+        {
+            cout << "INFO : Operation cancelled.\n";
+            system("pause");
+            system("cls");
+            return;
+        }
+        else
+        {
+            cout << "Invalid input. Please type 'Y' to confirm or 'N' to cancel.\n";
+            system("pause");
+            system("cls");
         }
     }
 }
@@ -617,15 +630,16 @@ void revert()
     read_file_assignment();
     if (kepala_a == NULL)
     {
-        cout << "Belum ada data assignment.\n";
+        cout << "No assignment data yet.\n";
         system("pause");
         system("cls");
         return;
     }
-    cetakAssignment();
 
     while (true)
     {
+        cetakAssignment();
+
         cout << "Assignment name to revert checklist : ";
         cin.ignore();
         getline(cin, assignment_name);
@@ -638,6 +652,7 @@ void revert()
         cout << "Type 'Y/y' to revert assignment status, or 'N/n' to cancel: ";
         cin >> sure_or_not;
         system("cls");
+
         if (sure_or_not == 'Y' || sure_or_not == 'y')
         {
             node_assignment *helpcek = kepala_a; // reset pointer setiap input
@@ -664,11 +679,14 @@ void revert()
             if (!found)
             {
                 cout << "No matching finished assignment found.\n";
+                cout << "Please check the input values (name, deadline, SKS, and difficulty).\n";
+                system("pause");
+                system("cls");
             }
         }
         else if (sure_or_not == 'N' || sure_or_not == 'n')
         {
-            system("cls");
+            cout << "INFO : Revert cancelled by user.\n";
             return;
         }
         else
@@ -745,7 +763,7 @@ void delete_checklist(const char *namaAssignment, const char *hariAssignment, in
         {
             if (strcmp(current->status, "Finished") != 0)
             {
-                cout << "ERROR: Assignment ditemukan, tetapi belum selesai. Tidak dapat dihapus.\n";
+                cout << "ERROR: Assignment found, but not completed. Cannot be deleted.\n";
                 return;
             }
 
@@ -781,7 +799,7 @@ void delete_checklist(const char *namaAssignment, const char *hariAssignment, in
 
     if (!found)
     {
-        cout << "ERROR: Assignment tidak ditemukan dengan kriteria tersebut.\n";
+        cout << "ERROR: Assignment not found in this criteria\n";
     }
 }
 
@@ -808,8 +826,6 @@ void checklist_lesson()
         {
         case 1:
             mark();
-            system("pause");
-            system("cls");
             break;
 
         case 2:
@@ -836,7 +852,7 @@ void checklist_lesson()
             // Cek apakah ada data assignment
             if (kepala_a == NULL)
             {
-                cout << "Tidak ada data assignment yang bisa dihapus.\n";
+                cout << "No assignment data can be deleted.\n";
                 system("pause");
                 system("cls");
                 break;
@@ -858,7 +874,7 @@ void checklist_lesson()
 
                 if (!adaFinished)
                 {
-                    cout << "Tidak ada assignment yang selesai untuk dihapus.\n";
+                    cout << "No assignment data can be deleted.\n";
                     system("pause");
                     system("cls");
                     break;
@@ -880,6 +896,17 @@ void checklist_lesson()
 
             delete_checklist(AssignmentName.c_str(), assignmentDay.c_str(), assignmentAmount, Assignment_div_lvl);
             break;
+
+        case 6 :
+            return;
+            break;
+
+        default :
+            cout << "Invalid Option, Please Select an Existing Menu" << endl;
+            system("pause");
+            system("cls");
+            break;
+
         }
     } while (pil_checklist != 6);
 }
@@ -984,9 +1011,6 @@ void input_notes()
 
     cout << "Date [yyyy-mm-dd]: ";
     cin.getline(baru_n->tanggal, sizeof(baru_n->tanggal));
-
-    // cin.get();
-    // system("cls");
 
     if (kepala_n == NULL)
     {
@@ -1194,6 +1218,8 @@ void menu_notes()
         {
         case 1:
             input_notes();
+            system("pause");
+            system("cls");
             break;
 
         case 2:
@@ -1221,6 +1247,9 @@ void menu_notes()
             break;
 
         default:
+            cout << "Invalid Option, Please Select an Existing Menu" << endl;
+            system("pause");
+            system("cls");
             break;
         }
     } while (menu_show_2 != 5);
@@ -1323,7 +1352,9 @@ void menu_input(int &pilih_menu_input)
             break;
 
         default:
-            
+            cout << "Invalid Option, Please Select an Existing Menu" << endl;
+            system("pause");
+            system("cls");
             break;
         }
     } while (menu_input_1 != 3);
@@ -1369,6 +1400,9 @@ void menu_show(int pilih_menu_show)
             break;
 
         default:
+            cout << "Invalid Option, Please Select an Existing Menu" << endl;
+            system("pause");
+            system("cls");
             break;
         }
     } while (menu_show_2 != 3);
@@ -1410,6 +1444,9 @@ int main()
             break;
 
         default:
+            cout << "Invalid Option, Please Select an Existing Menu" << endl;
+            system("pause");
+            system("cls");
             break;
         }
     } while (pilmenu != 0);
